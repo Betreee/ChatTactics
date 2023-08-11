@@ -1,6 +1,6 @@
 import streamlit as st
-from UserManagement.Atho import with_authorization
-@with_authorization
+from UserManagement.Atho import Authenticators
+@Authenticators.with_authorization
 def main():
     st.title("Login")
     st.subheader("Login Section")

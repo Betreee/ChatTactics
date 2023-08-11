@@ -2,11 +2,11 @@ import jwt
 import streamlit as st
 
 from Utils.erro import ErrorHandler
-class Authenticator:
+class Authenticators:
     def with_authorization(page_func):
         def wrapper(*args, **kwargs):
             token = st.session_state.get('token')
-            if not Authenticator.authorize_request(token):
+            if not Authenticators.authorize_request(token):
                 st.error("Unauthorized")
                 return
             return page_func(*args, **kwargs)

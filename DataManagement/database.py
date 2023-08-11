@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 
-
+import Utils.erro import ErrorHandle
 @dataclass
 class ChatHistory:
     messages: list
@@ -18,9 +18,14 @@ class User:
     _usernames = set()  # Class-level set to keep track of usernames
 
     def __post_init__(self):
-        if self.username in User._usernames:
-            raise ValueError(f"Username {self.username} is already taken.")
-        User._usernames.add(self.username)
+        try:
+            if self.username  not in User._usernames:
+                User._usernames.add(self.username)
+        except Exception as e:
+            Utils.erro.ErrorHandler.recover_from_error(ValueError(f"Username {self.username} is already taken."))
+                      
+
+            
     
 
 @dataclass
@@ -41,8 +46,8 @@ class Repository:
     def add_user(self, user):
         self.users.append(user)
     
-    def add_analysis_result(self, analysis_result):
-        self.analysis_results.append(analysis_result)
+    def add_analysis_result(self,name, analysis_result):
+        self.analysis_results[name] = analysis_result
     
     def get_chat_history(self):
         return self.chat_history

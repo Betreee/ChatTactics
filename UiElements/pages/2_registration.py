@@ -1,7 +1,10 @@
 import streamlit as st
-from UserManagement.Atho import with_authorization
-from DataManagement.ondisk import save_user_data
-@with_authorization
+from UserManagement import  Atho
+from DataManagement.ondisk import DataStorage as ds
+from UserManagement.User import User, UserManager
+# from DataManagement.database import database
+from DataManagement.database import Repository
+@Atho.Authenticators.with_authorization
 def registration_page():
     # Collecting user information
     username = st.text_input("Username")
@@ -13,9 +16,19 @@ def registration_page():
     if submit:
         if password == confirm_password:
 
-            save_user_data(username, email, password)
+            ds.save_user_data(username, email, password)
             st.success(f"Welcome {username}, you have been successfully registered!")
         else:
             st.error("Invalid credentials")
     else:
         st.error("Passwords do not match")
+        
+    def register_user(username, email, password):
+        existing_user = UserManager.get_user_by_username(username)
+        if existing_user:
+            print(f"Username {username} already exists! Please choose a different username.")
+            return False
+        user = User(username=username, email=email, password=password)
+        Repository.add_user(user)
+        print(f"User {username} registered successfully!")
+        return True

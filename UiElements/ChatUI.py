@@ -1,5 +1,8 @@
 import streamlit as st
-from PIL import Image                                                                                                                                                                                                                                                                                               
+from PIL import Image 
+import sys
+sys.path.append('C:\\Users\\be\\OneDrive\\Documents\\GitHub\\chattactics\\UserManagement')
+sys.path.append('C:\\Users\\be\\OneDrive\\Documents\\GitHub\\chattactics\\DataManagement')                                                                                                                                                                                                                                                                                              
 img = Image.open('UiElements\static\logo3.png')
 # st.image(, width=100)
 

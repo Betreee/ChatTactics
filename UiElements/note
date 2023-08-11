@@ -1,0 +1,2 @@
+sys.path.append('C:\\Users\\be\\OneDrive\\Documents\\GitHub\\chattactics\\UserManagement')
+sys.path.append('C:\\Users\\be\\OneDrive\\Documents\\GitHub\\chattactics\\DataManagement')
