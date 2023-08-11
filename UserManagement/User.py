@@ -1,6 +1,7 @@
 #User.py
-from ChatTactics.SessionManagement.SessionManagement import SessionManager
-from ChatTactics.UserManagement.Atho import Authenticator
+
+from SessionManagement.SessionManagement import SessionManager
+from UserManagement.Atho import Authenticator
 
 
 class User:

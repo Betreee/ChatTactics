@@ -1,8 +1,8 @@
+import json
 import os
 from cryptography.fernet import Fernet
 
-
-class DataStorage:
+class SecureFileEnDeCryptor:
     def __init__(self, key):
         self.key = key
         self.fernet = Fernet(self.key)
@@ -10,36 +10,33 @@ class DataStorage:
     @staticmethod
     def new_key():
         return Fernet.generate_key()
+         
+    def save_encrypted_data(self, file_path):
+        with open(file_path, 'rb') as file:
+            file_data = file.read()
+        encrypted_data = self.fernet.encrypt(file_data)
+    
+    def load_decrypted_data(self, file_path):
+        with open(file_path, 'rb') as file:
+            file_data = file.read()
+        decrypted_data = self.fernet.decrypt(file_data)
+    
+    
+class DataStorage:
+    def __init__(self):
+        self.Secure = SecureFileEnDeCryptor
 
-    def save_key(self):
-        with open('key.key', 'wb') as key_file:
-            key_file.write(self.key)
-
-    def load_key(self):
-        if os.path.isfile('key.key'):
-            return open('key.key', 'rb').read()
-        else:
-            raise Exception('Key not found')
-
-    def encrypt(self, data):
-        encrypted_data = self.fernet.encrypt(data.encode())
-        return encrypted_data
-
-    def decrypt(self, encrypted_data):
-        decrypted_data = self.fernet.decrypt(encrypted_data).decode()
-        return decrypted_data
-
+        
     def save_data(self, filename, data):
-        encrypted_data = self.encrypt(data)
         with open(filename, 'wb') as file:
-            file.write(encrypted_data)
+            file.write(data)
+            return file
 
     def read_data(self, filename):
         if os.path.isfile(filename):
             with open(filename, 'rb') as file:
-                encrypted_data = file.read()
-            data = self.decrypt(encrypted_data)
-            return data
+                file = file.read()
+            return file
         else:
             return None
 
@@ -50,19 +47,25 @@ class DataStorage:
     def destroy_data(self, filenames):
         for filename in filenames:
             self.delete_file(filename)
+            return "destroyed"
+def save_user_data(username, email, password):
+    key = DataStorage.new_key()
+    crypt = DataStorage(key)
+    DataStorage.save_key(key)
+    user_data = {"username": username, "email": email, "password": password}
+    crypt.save_data("user_file.txt", data=json.dumps(user_data))
+# key = DataStorage.new_key() # generate new key
+# storage = DataStorage(key)
+# storage.save_key() # save key
+# key = storage.load_key() # load key
 
-key = DataStorage.new_key() # generate new key
-storage = DataStorage(key)
-storage.save_key() # save key
-key = storage.load_key() # load key
+# # Save data
+# filename = 'data.txt'
+# data = 'This is some sensitive information'
+# enc = storage.save_data(filename, data)
+# print(open(filename, 'rb').read())
+# # Read data
+# read_data = storage.read_data(filename)
+# print(read_data)  # Output: This is some sensitive information
 
-# Save data
-filename = 'data.txt'
-data = 'This is some sensitive information'
-enc = storage.save_data(filename, data)
-print(open(filename, 'rb').read())
-# Read data
-read_data = storage.read_data(filename)
-print(read_data)  # Output: This is some sensitive information
-
-# Delete file
+# # Delete file
