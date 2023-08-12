@@ -1,7 +1,7 @@
 import streamlit as st
 from UserManagement import  Atho
 from DataManagement.ondisk import DataStorage as ds
-from UserManagement.User import User, UserManager
+from UserManagement import User
 # from DataManagement.database import database
 from DataManagement.database import Repository
 @Atho.Authenticators.with_authorization
@@ -24,7 +24,7 @@ def registration_page():
         st.error("Passwords do not match")
         
     def register_user(username, email, password):
-        existing_user = UserManager.get_user_by_username(username)
+        existing_user = User.get_user_by_username(username)
         if existing_user:
             print(f"Username {username} already exists! Please choose a different username.")
             return False

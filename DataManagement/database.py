@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 
-import Utils.erro import ErrorHandle
+from Utils.erro import ErrorHandler  
 @dataclass
 class ChatHistory:
     messages: list
@@ -22,7 +22,8 @@ class User:
             if self.username  not in User._usernames:
                 User._usernames.add(self.username)
         except Exception as e:
-            Utils.erro.ErrorHandler.recover_from_error(ValueError(f"Username {self.username} is already taken."))
+            
+            ErrorHandler().recover_from_error(ValueError(f"Username {self.username} is already taken."))
                       
 
             

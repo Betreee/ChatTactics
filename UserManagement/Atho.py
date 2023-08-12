@@ -8,8 +8,9 @@ class Authenticators:
             token = st.session_state.get('token')
             if not Authenticators.authorize_request(token):
                 st.error("Unauthorized")
-                return
-            return page_func(*args, **kwargs)
+                return False , token
+            page_func(*args, **kwargs)
+            return (True, token)
         return wrapper
 
 

@@ -14,9 +14,13 @@ def main():
     # st.write("Password: {}".format(password))
     st.write("")
     if st.button("Login"):
-        if username == "admin" and password == "admin":
-            st.success("Logged In as {}".format(username))
-            # You can add more content for the logged-in user here
-        else:
-            st.warning("Incorrect Username/Password")
+        st.title("Welcome")
+        st.write("Welcome {}".format(username))
+        st.write("You are logged in")
+        st.write("")
+        st.write("")
+        st.write("")                    
+        
+    else:
+        st.warning("Incorrect Username/Password")
 main()
